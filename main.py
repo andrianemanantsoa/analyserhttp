@@ -124,6 +124,7 @@ def on_select(event):
         print(ListPaquet[index].show())
         print(f"Index sélectionné : {index}")
 
+# Fonction pour afficher les informations IP
 def ChangeIp(ind):
     Attr_Ip = ["src", "dst", "flags", "version", "ttl", "frag", "id", "len", "tos"]
     ip_layer = ListPaquet[ind].getlayer("IP")
@@ -137,6 +138,7 @@ def ChangeIp(ind):
         else:
             IpInfo.insert(END, "proto: udp")
 
+# Fonction pour afficher les informations TCP
 def ChangeTcp(ind):
     Attr_Tcp = ["sport", "dport", "flags", "seq", "ack", "dataofs", "reserved", "window", "chksum"]
     tcp_layer = ListPaquet[ind].getlayer("TCP")
@@ -154,6 +156,7 @@ def ChangeTcp(ind):
         else:
             TcpInfo.insert(END, "Temps non disponible")
 
+# Fonction pour afficher les informations HTTP
 def ChangeHttp(ind):
     if ListPaquet[ind].haslayer("Raw"):
         raw_data_bytes = ListPaquet[ind].getlayer("Raw").load
@@ -169,6 +172,7 @@ def ChangeHttp(ind):
             if ligne.strip():
                 HttpInfo.insert(END, ligne + "\n")
 
+# Fonction pour traiter les paquets capturés
 def traiter(paquet):
     # Vérifier si le paquet a une couche IP et TCP
     if paquet.haslayer("IP") and paquet.haslayer("TCP"):
@@ -180,10 +184,12 @@ def traiter(paquet):
         display_text = f"[{capture_time}] {summary}"
         fenetre.after(0, lambda: ScanList.insert(END, display_text))
 
+# Fonction pour lancer le sniffing 
 def lancer_sniff():
     sniff(filter="tcp port 80 or tcp port 8080 or tcp port 9000", prn=traiter, store=False,
           stop_filter=lambda pkt: stop_sniff_event.is_set())
 
+# --- Fonctionnalité : Démarrer la capture de paquets ---
 def SniffStart():
     Btn.config(state="disabled")
     Btn2.config(state="normal")
@@ -192,11 +198,13 @@ def SniffStart():
     sniff_thread = threading.Thread(target=lancer_sniff, daemon=True)
     sniff_thread.start()
 
+# --- Fonctionnalité : Arrêter la capture de paquets ---
 def SniffStop():
     Btn2.config(state="disabled")
     Btn.config(state="normal")
     stop_sniff_event.set()
 
+# --- Fonctionnalité : Sauvegarder les paquets capturés dans un fichier PCAP ---
 def save_packets():
     if ListPaquet:
         filename = filedialog.asksaveasfilename(defaultextension=".pcap", filetypes=[("PCAP files", "*.pcap"), ("All files", "*.*")])
@@ -206,10 +214,11 @@ def save_packets():
     else:
         messagebox.showwarning("Sauvegarde", "Aucun paquet à sauvegarder.")
 
-# --- Fonctionnalité : Recherche dans la liste des paquets capturés ---
+#--- Fonctionnalité : entree lance la recherche ---
 def on_enter(event):
     search_packets()
 
+# --- Fonctionnalité : Recherche de paquets capturés ---
 def search_packets():
     keyword = search_entry.get().lower()
     ScanList.delete(0, END)
@@ -219,7 +228,6 @@ def search_packets():
             capture_time = time.strftime("%H:%M:%S", time.localtime())
             display_text = f"[{capture_time}] {pkt.summary()}"
             ScanList.insert(END, display_text)
-
 
 # --- Fonctionnalité : Importer un fichier PCAP pour analyse hors ligne ---
 def import_pcap():
@@ -236,7 +244,7 @@ def import_pcap():
             messagebox.showerror("Erreur", f"Erreur lors de l'importation : {e}")
 
 
-# options du fenetre principal
+# fenetre principal
 fenetre = Tk()
 fenetre.title("Analyseur HTTP - Simple Packet Sniffer")
 fenetre.geometry("900x650")
@@ -248,30 +256,31 @@ fenetre.iconbitmap("")
 Container = Frame(fenetre, relief=GROOVE, bd=2, padx=10, pady=8, bg="#f0f0f0")
 Container.pack(fill=X, padx=10, pady=8)
 
-# Contrôle de fonctionnalité
+# ---- Contrôle de fonctionnalité ---
 ContainerBtn = LabelFrame(Container, relief=GROOVE, text="Contrôle", padx=8, pady=4, bg="#e6e6e6", font=("Arial", 10, "bold"))
 ContainerBtn.grid(row=0, column=0, sticky="w", padx=5)
 
-# VarCheck = IntVar()
-# proxy_check = Checkbutton(ContainerBtn, variable=VarCheck, text="Activer le proxy", font=("Arial", 10), bg="#e6e6e6")
-# proxy_check.grid(row=0, column=0, padx=5, pady=2, sticky="w")
-
+# Demarrer
 Btn = Button(ContainerBtn, text="Démarrer", bg="#5F8F61", fg="white", padx=12, pady=6, font=("Arial", 10, "bold"), command=SniffStart, relief=RAISED, cursor="hand2")
 Btn.grid(row=0, column=1, padx=5, pady=2)
 
+# Arrêter
 Btn2 = Button(ContainerBtn, text="Arrêter", bg="#883731", fg="white", padx=12, pady=6, font=("Arial", 10, "bold"), command=SniffStop, state="disabled", relief=RAISED, cursor="hand2")
 Btn2.grid(row=0, column=2, padx=5, pady=2)
 
+# Sauvegarde
 BtnSave = Button(ContainerBtn, text="Sauvegarder", bg="#71899C", fg="white", padx=12, pady=6, font=("Arial", 10, "bold"), command=save_packets, relief=RAISED, cursor="hand2")
 BtnSave.grid(row=0, column=3, padx=5, pady=2)
 
+# Importer PCAP
 BtnImport = Button(ContainerBtn, text="Importer PCAP", bg="#4D435E", fg="white", padx=12, pady=6, font=("Arial", 10, "bold"), command=import_pcap, relief=RAISED, cursor="hand2")
 BtnImport.grid(row=0, column=4, padx=5, pady=2)
 
+# realtime traffic
 BtnTraffic = Button(ContainerBtn, text="Traffic en temps reel", bg="#94387D", fg="white", padx=12, pady=6, font=("Arial", 10, "bold"), command=show_realtime_traffic, relief=RAISED, cursor="hand2")
 BtnTraffic.grid(row=0, column=5, padx=5, pady=2)
 
-# Bouton pour afficher les statistiques
+# Stat
 BtnStatistics = Button(ContainerBtn, text="Statistiques", bg="#4A90E2", fg="white", padx=12, pady=6, font=("Arial", 10, "bold"), command=ouvrir_fenetre_stat, relief=RAISED, cursor="hand2")
 BtnStatistics.grid(row=0, column=6, padx=5, pady=2)
 
