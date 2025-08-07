@@ -1,0 +1,22 @@
+b'HTTP/1.1 301 Moved Permanently\r\n
+Location: http://www.google.com/\r\n
+Content-Type: text/html; charset=UTF-8\r\n
+Content-Security-Policy-Report-Only: object-src \'none\';base-uri \'self\';script-src \'nonce-MD6t0zS2vK0A38T6G4ZimA\' \'strict-dynamic\' \'report-sample\' \'unsafe-eval\' \'unsafe-inline\' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\r\n
+Date: Fri, 25 Jul 2025 11:31:27 GMT\r\n
+Expires: Sun, 24 Aug 2025 11:31:27 GMT\r\n
+Cache-Control: public, max-age=2592000\r\n
+Server: gws\r\
+nContent-Length: 219\r\n
+X-XSS-Protection: 0\r\n
+X-Frame-Options: SAMEORIGIN\r\n\r\n
+<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">\n
+<TITLE>301 Moved</TITLE></HEAD><BODY>\n<H1>301 Moved</H1>\n
+The document has moved\n
+<A HREF="http://www.google.com/">here</A>.\r\n
+</BODY></HTML>\r\n'
+
+b'GET / HTTP/1.1\r\n
+Host: google.com\r\n
+User-Agent: curl/8.14.1\r\n
+Accept: */*\r\n\r\n'
+

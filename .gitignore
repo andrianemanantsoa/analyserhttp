@@ -1,0 +1,18 @@
+# Ignorer les fichiers JSON
+*.json
+
+# Ignorer les captures réseaux
+*.pcap
+
+# Ignorer les vidéos
+*.mp4
+
+# Ignorer les fichiers temporaires Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorer les fichiers système
+.DS_Store
+Thumbs.db
