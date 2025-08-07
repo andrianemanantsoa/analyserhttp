@@ -3,6 +3,7 @@
 
 # Ignorer les captures réseaux
 *.pcap
+*proxy
 
 # Ignorer les vidéos
 *.mp4
@@ -16,3 +17,4 @@ __pycache__/
 # Ignorer les fichiers système
 .DS_Store
 Thumbs.db
+
