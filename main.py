@@ -280,7 +280,7 @@ BtnImport.grid(row=0, column=4, padx=5, pady=2)
 BtnTraffic = Button(ContainerBtn, text="Traffic en temps reel", bg="#94387D", fg="white", padx=12, pady=6, font=("Arial", 10, "bold"), command=show_realtime_traffic, relief=RAISED, cursor="hand2")
 BtnTraffic.grid(row=0, column=5, padx=5, pady=2)
 
-# Stat
+# Statistiques
 BtnStatistics = Button(ContainerBtn, text="Statistiques", bg="#4A90E2", fg="white", padx=12, pady=6, font=("Arial", 10, "bold"), command=ouvrir_fenetre_stat, relief=RAISED, cursor="hand2")
 BtnStatistics.grid(row=0, column=6, padx=5, pady=2)
 

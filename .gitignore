@@ -9,3 +9,4 @@ keyssh
 *.pyd
 .DS_Store
 Thumbs.db
+*.txt
