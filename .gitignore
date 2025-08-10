@@ -10,3 +10,4 @@ keyssh
 .DS_Store
 Thumbs.db
 *.txt
+mitmproxy
