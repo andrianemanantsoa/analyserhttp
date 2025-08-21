@@ -49,6 +49,7 @@ cursor.execute("""
     )
 """)
 conn.commit()
+conn.close()
 
 def traiter_paquet(pkt):
     if pkt.haslayer("IP") and pkt.haslayer("TCP") and pkt.haslayer("Raw"):
