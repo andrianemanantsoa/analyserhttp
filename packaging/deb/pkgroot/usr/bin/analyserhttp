@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+APP_DIR="/opt/analyserhttp"
+VENV_BIN="$APP_DIR/.venv/bin"
+
+if [ ! -x "$VENV_BIN/python" ]; then
+  echo "Virtual env not found; attempting to set up..." >&2
+  if command -v python3 >/dev/null 2>&1; then
+    python3 -m venv "$APP_DIR/.venv"
+    "$VENV_BIN/pip" install --upgrade pip wheel
+    if [ -f "$APP_DIR/requirements.txt" ]; then
+      "$VENV_BIN/pip" install -r "$APP_DIR/requirements.txt"
+    else
+      "$VENV_BIN/pip" install customtkinter scapy matplotlib
+    fi
+  else
+    echo "python3 not found" >&2
+    exit 1
+  fi
+fi
+
+exec "$VENV_BIN/python" "$APP_DIR/main.py" "$@"

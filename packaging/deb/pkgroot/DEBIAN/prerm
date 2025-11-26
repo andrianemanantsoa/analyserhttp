@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+PKG_NAME="analyserhttp"
+APP_DIR="/opt/$PKG_NAME"
+
+echo "[prerm] Preparing to remove $PKG_NAME"
+# Uncomment to remove the venv on uninstall:
+# rm -rf "$APP_DIR/.venv" || true
+exit 0

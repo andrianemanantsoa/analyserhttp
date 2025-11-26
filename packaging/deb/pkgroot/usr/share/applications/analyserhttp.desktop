@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Analyseur HTTP
+Comment=Analyseur de trafic HTTP (CustomTkinter + Scapy)
+Exec=analyserhttp
+Terminal=false
+Categories=Network;Utility;
